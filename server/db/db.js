@@ -24,7 +24,7 @@ dbConnection.connect(err => {
         return console.log(`DB error : ${err}`)
     }
     console.log(`DB: ${dbConnection.readyState}`)
-    dbConnection.exec(`SELECT * FROM TABLES WHERE SCHEMA_NAME = '8CFA3F959D2C4617BB329C54D48B4D9F' AND (TABLE_NAME = 'USER' OR TABLE_NAME =  'POSTING' OR TABLE_NAME =  'POSTING_REPLY')`, function(err,res) {
+    dbConnection.exec(`SELECT * FROM TABLES WHERE SCHEMA_NAME = '${hanaCredential.schema}' AND (TABLE_NAME = 'USER' OR TABLE_NAME =  'POSTING' OR TABLE_NAME =  'POSTING_REPLY')`, function(err,res) {
         if(err) return console.log(err)
         if(!res.length) {
             console.log("테이블이 존재하지 않아 생성합니다.")
