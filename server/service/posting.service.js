@@ -1,5 +1,5 @@
 const util = require("util")
-const dbConnection = require("../db/db");
+const {dbConnection, schema} = require("../db/db");
 
 // * 일단 유저, 제목 조회조건
 // ! 유저 + 제목, 제목 + 내용, 등등 추후 고려
@@ -9,7 +9,7 @@ exports.getPostingsList = async({userId, title}) => {
         if(userId) condition = {userId};
         if(title) condition = {title};
         const conditionKey = Object.keys(condition).join();
-        let queryStatement = "SELECT * FROM 8CFA3F959D2C4617BB329C54D48B4D9F.POSTING";
+        let queryStatement = `SELECT * FROM ${schema}.POSTING`;
         queryStatement = condition ? `${queryStatement} WHERE ${conditionKey.toUpperCase()} = ${condition[conditionKey]}` : queryStatement;        
         const response = await execAsync(queryStatement);
         if(response instanceof Error) return {error: response};
@@ -22,7 +22,7 @@ exports.getPostingsList = async({userId, title}) => {
 
 exports.writeNewPosting = async (body) => {
     try {
-        const queryStatement = `INSERT INTO 8CFA3F959D2C4617BB329C54D48B4D9F.POSTING (USERID, TITLE, CONTENT) VALUES ('${body.userId}', '${body.title}', '${body.content}')`;
+        const queryStatement = `INSERT INTO ${schema}.POSTING (USERID, TITLE, CONTENT) VALUES ('${body.userId}', '${body.title}', '${body.content}')`;
         const response = await execAsync(queryStatement);
         if(response instanceof Error) return response;
         return {success:true, message: "글쓰기 성공"}

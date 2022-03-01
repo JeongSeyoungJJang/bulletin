@@ -45,4 +45,5 @@ dbConnection.connect(err => {
     });
 })
 
-module.exports = dbConnection
+module.exports.dbConnection = dbConnection
+module.exports.schema = hanaCredential.schema
