@@ -8,7 +8,8 @@ const conn_config = {
     user: hanaCredential.user,
     password: hanaCredential.password,
     schema: hanaCredential.schema,
-    polling: true,
+    useTLS: true,
+    pooling: true,
     maxPoolSize: 10,
     connectionLifetime :120,
     charset: "utf-8",
@@ -18,6 +19,9 @@ const conn_config = {
 }
 
 const dbConnection = hdb.createClient(conn_config);
+dbConnection.on("error", err => {
+    console.log("Network Error")
+})
 dbConnection.connect(err => {
     if(err) {
         console.log("DB 점검후 서버를 재시작해주세요")
